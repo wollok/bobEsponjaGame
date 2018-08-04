@@ -15,7 +15,7 @@ object nivel{
 	game.addVisual(inicioDelJuego)
 	game.addVisual(bobAlCostado)
 	game.addVisual(costadoPlankton)
-	S.onPressDo{self.configurate()}
+	keyboard.s().onPressDo{self.configurate()}
 }	
 	
 	method configurate() {
@@ -68,16 +68,16 @@ object nivel{
         }
         
         //Teclado	
-			W.onPressDo{ bobVisual.canta()}
-			M.onPressDo{ bobVisual.cuantasMonedas()}
+			keyboard.w().onPressDo{ bobVisual.canta()}
+			keyboard.m().onPressDo{ bobVisual.cuantasMonedas()}
 
-			E.onPressDo{ win.actualizarScoreTotal()}
+			keyboard.e().onPressDo{ win.actualizarScoreTotal()}
 			
 			
-			RIGHT.onPressDo{console.println("derecha 1") win.actualizarScoreTotal() console.println("derecha 2")}
-			LEFT.onPressDo{ win.actualizarScoreTotal() }
-			UP.onPressDo{ win.actualizarScoreTotal() }
-			DOWN.onPressDo{ win.actualizarScoreTotal()}
+			keyboard.right().onPressDo{console.println("derecha 1") win.actualizarScoreTotal() console.println("derecha 2")}
+			keyboard.left().onPressDo{ win.actualizarScoreTotal() }
+			keyboard.up().onPressDo{ win.actualizarScoreTotal() }
+			keyboard.down().onPressDo{ win.actualizarScoreTotal()}
 			
 	}
 	
@@ -88,8 +88,8 @@ object nivel{
 		game.addVisual(winVisual)
 		game.addVisual(empleadoDelMes)
 
-		P.onPressDo{self.inicio()}
-		F.onPressDo{game.stop()}
+		keyboard.p().onPressDo{self.inicio()}
+		keyboard.f().onPressDo{game.stop()}
 	}
 	
 	method gameOver(){
@@ -98,8 +98,8 @@ object nivel{
 		game.width(28)
 		game.height(12)
         game.addVisual(gameOver)
-		P.onPressDo{self.inicio()}
-		F.onPressDo{game.stop()}
+		keyboard.p().onPressDo{self.inicio()}
+		keyboard.f().onPressDo{game.stop()}
 		
 	}
 }
