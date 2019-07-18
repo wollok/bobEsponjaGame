@@ -1,76 +1,89 @@
-import wollok.game.*
-import bobEsponja.*
-import elementos.*
+import factories.*
+import nivel.*
 
-object bobVisual{
-	const imagen = "BobChiquito.png"
-	var posicion = new Position(0,0)
-	var elemento
-	
-	method canta() {
-		game.say(self, "Vivo en una piña debajo del mar")
-	}
-	method cuantasMonedas(){
-		game.say(self, "Tengo " + bobEsponja.monedas() + " monedas!!")
-	}
-	method agarrar(agarrable) {
-		if (elemento != null)
-			elemento.soltar() 
-		elemento = agarrable
-		agarrable.setPosicion(posicion)
+import wollok.game.*
+import elementos.*
+import score.*
+
+object bobEsponja inherits Visual(image = "BobChiquito.png",position = new Position(x=1,y=1)){
+
+	var property monedas = 0
+	var property tieneEspatula = false
+
+	method sumaMonedas(cantidad) { monedas += cantidad }
+
+	method restaMonedas(cantidad) {
+		if (cantidad > monedas)
+			throw new Exception("No tengo suficiente monedas para eso")
+		monedas -= cantidad
 	}
 	
 	method agarrarIngrediente(ingrediente){
-		bobEsponja.sumaMonedas(ingrediente.monedas())
+		self.sumaMonedas(ingrediente.monedas())
 	}
-	method restarMonedas(cantidad){
-		bobEsponja.restaMonedas(cantidad)
+
+	method canta() {
+		game.say(self, "Vivo en una piÃ±a debajo del mar")
 	}
 	
-	method usarElemento() { elemento.usate(self) }
-	method posicion() = posicion
-	method elemento() = elemento
-}
+	method cuantasMonedas(){
+		game.say(self, "Tengo " + bobEsponja.monedas() + " monedas!!")
+	}
 
+}
 //Fondos del juego de las distintas pantallas
 
-object fondoDelJuego {
-	const imagen = "Fondo_del_Mar.PNG"
-	var posicion = new Position(0,0)
-	method posicion() = posicion
+object fondoDelJuego inherits Visual(
+	image = "Fondo_del_Mar.PNG",
+	position = new Position(x=1,y=1)
+){
+	method colisionadoPor(visual){}
 }
-object inicioDelJuego {
-	const imagen = "CrustaceoCascarudo.png"
-	var posicion = new Position(1,1)
-	method posicion() = posicion
-}
-object bobAlCostado {
-	const imagen = "PruebaInstrucciones.png"
-	var posicion = new Position(19,1)
-	method posicion() = posicion
-}
-object winVisual {
-	const imagen = "winwin.png"
-	var posicion = new Position(0,0)
-	method posision() = posicion
-}
-object empleadoDelMes {
-	const imagen = "empleadoDelMes.png"
-	var posicion = new Position(20,0)
-	method posision() = posicion
+const inicioDelJuego = new Visual(
+	image =  "CrustaceoCascarudo.png",
+	position = game.at(1,1)
+)
+const bobAlCostado = new Visual(
+	image = "PruebaInstrucciones.png",
+	position = game.at(19,1)
+)
+const winVisual = new Visual(
+	image = "winwin.png",
+	position = game.origin()
+)
+const empleadoDelMes = new Visual(
+	image = "empleadoDelMes.png",
+	position = game.at(20,0)
+)
+const costadoPlankton = new Visual(
+	image = "planktonALCostado.png",
+	position = game.at(22,1)
+)
+const gameOver = new Visual(
+	image = "sadBob.gif", 
+	position = game.at(1,1)
+)
+
+class Visual {
+	var property image
+	var property position = game.origin()
 }
 
-object costadoPlankton{
-	const imagen = "planktonALCostado.png"
-	var posicion = new Position(22,1)
-	method posision() = posicion
+
+object win{
+	
+	method actualizarScoreTotal(){
+		if (plankton.score()>= 3)
+			nivel.gameOver()
+		else{ 
+			if(kangreburger.score() >= 2)
+				nivel.hasGanado()
+			else 
+				score.dibujar()
+		}
+	}
 }
 
-object gameOver{
-	const imagen = "sadBob.gif"
-	var posicion = new Position(1,1)
-	method posicion() = posicion
-}
 
 
 

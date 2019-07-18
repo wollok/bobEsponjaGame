@@ -1,90 +1,83 @@
 import wollok.game.*
 import visuales.*
 import factories.*
-import estrellas.*
 import elementos.*
 import score.*
 
 object nivel{
-	method inicio(){
-	game.clear()
-	game.title("Bob Esponja y las Kangreburger")
-	game.width(28)
-	game.height(12)
-	game.ground("Celda.png")
-	game.addVisual(inicioDelJuego)
-	game.addVisual(bobAlCostado)
-	game.addVisual(costadoPlankton)
-	keyboard.s().onPressDo{self.configurate()}
-}	
 	
+	const anchoTotal = 28
+	const altoTotal = 12
+	const anchoRecuadro = 22 
+	const altoRecuadro = 11
+	method inicio(){
+		game.clear()
+		game.title("Bob Esponja y las Kangreburger")
+		game.width(anchoTotal)
+		game.height(altoTotal)
+		game.ground("Celda.png")
+		game.addVisual(inicioDelJuego)
+		game.addVisual(bobAlCostado)
+		game.addVisual(costadoPlankton)
+		keyboard.s().onPressDo{self.configurate()}
+	}	
+		
 	method configurate() {
 	//	CONFIGURACI�N DEL JUEGO
 		game.clear()
-		game.width(28)
-		game.height(12)
+		game.width(anchoTotal)
+		game.height(altoTotal)
 		game.addVisual(fondoDelJuego)
 		game.ground("Celda.png")
 		
 		//Visuales	
-			game.addVisualCharacter(bobVisual)
-		
-			const ancho = game.width() - 1 - 5
-			const largo = game.height() - 1 
-		
-			(1 .. ancho-1).forEach { n => estrellaFactory.draw(new EstrellaAbajo(),new Position(n, 0)) } // bordeAbajo
-			(1 .. ancho-1).forEach { n => estrellaFactory.draw(new EstrellaArriba(), new Position(n, largo)) } // bordeArriba 
-			estrellaFactory.draw(new EstrellaArriba(),new Position(largo,ancho-1))
-			(0 .. largo).forEach { n => estrellaFactory.draw(new EstrellaIzquierda(), new Position(0, n)) } // bordeIzq 
-			(0 .. largo).forEach { n => estrellaFactory.draw(new EstrellaDerecha(), new Position(ancho, n)) } // bordeDer
-	        
-			scorePan.iniciarScore()
-			scoreTomate.iniciarScore()
-			scoreLechuga.iniciarScore()
-			scorePaty.iniciarScore()
-			scoreCondimentos.iniciarScore()
-			scoreFormula.iniciarScore()
-			scoreKangreburger.iniciarScore()
+			game.addVisual(bobEsponja)
+			movimiento.configurarFlechas(bobEsponja)
+
+			new MarcoSolido(
+				verticeInicial= new Position(x=0,y=0),
+				verticeFinal = new Position(x=anchoRecuadro, y=altoRecuadro),
+				image = "estrella.png").dibujar()	        
 			
 		game.addVisual(espatula)
-	
-		var ingredientesSueltos = [tomate,pan,lechuga,paty,condimentos]
-		ingredientesSueltos.forEach { it => game.addVisual(it) }
 		game.addVisual(plankton)
 	
-
+		[tomate,lechuga,pan,paty,condimentos].forEach { ing =>  
+			game.addVisual(ing)
+			self.ubicarAleatoriamente(ing) 
+		}
+		score.dibujar()
 		
+	
 		//Colisiones
 		
-		game.whenCollideDo(espatula, { w =>  if (bobVisual == w) espatula.serTomada(bobVisual) })
-		game.whenCollideDo(plankton, { w =>  if (bobVisual == w) plankton.serTomada(bobVisual) })
+		game.whenCollideDo(bobEsponja, {elemento => elemento.colisionadoPor(bobEsponja) win.actualizarScoreTotal()})
 		
-		ingredientesSueltos.forEach { it => game.whenCollideDo(it, { g =>	
-			if (bobVisual == g) 
-				if (!(bobVisual.posicion() === it.posicion()))
-					it.serTomada(bobVisual)
-				
-		  })
-        }
+		
         
         //Teclado	
-			keyboard.w().onPressDo{ bobVisual.canta()}
-			keyboard.m().onPressDo{ bobVisual.cuantasMonedas()}
+			keyboard.w().onPressDo{ bobEsponja.canta()}
+			keyboard.m().onPressDo{ bobEsponja.cuantasMonedas()}
 
 			keyboard.e().onPressDo{ win.actualizarScoreTotal()}
 			
 			
-			keyboard.right().onPressDo{console.println("derecha 1") win.actualizarScoreTotal() console.println("derecha 2")}
-			keyboard.left().onPressDo{ win.actualizarScoreTotal() }
-			keyboard.up().onPressDo{ win.actualizarScoreTotal() }
-			keyboard.down().onPressDo{ win.actualizarScoreTotal()}
-			
 	}
-	
+	method ubicarAleatoriamente(visual){
+		var posicion = new Position (
+			x=1.randomUpTo(anchoRecuadro),
+			y=1.randomUpTo(altoRecuadro)
+		)
+		if(game.getObjectsIn(posicion).isEmpty())
+			visual.position(posicion)
+		else
+			self.ubicarAleatoriamente(visual)			
+		
+	}
 	method hasGanado(){
 		game.clear()
-		game.width(28)
-		game.height(12)
+		game.width(anchoTotal)
+		game.height(altoTotal)
 		game.addVisual(winVisual)
 		game.addVisual(empleadoDelMes)
 
@@ -95,8 +88,8 @@ object nivel{
 	method gameOver(){
 		game.clear()
 		game.title("Bob Esponja y las Kangreburgers")
-		game.width(28)
-		game.height(12)
+		game.width(anchoTotal)
+		game.height(altoTotal)
         game.addVisual(gameOver)
 		keyboard.p().onPressDo{self.inicio()}
 		keyboard.f().onPressDo{game.stop()}
