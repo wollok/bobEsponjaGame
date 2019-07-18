@@ -27,7 +27,7 @@ object bobEsponja inherits Visual(image = "BobChiquito.png",position = new Posit
 	}
 	
 	method cuantasMonedas(){
-		game.say(self, "Tengo " + bobEsponja.monedas() + " monedas!!")
+		game.say(self, "Tengo " + self.monedas() + " monedas!!")
 	}
 
 }
