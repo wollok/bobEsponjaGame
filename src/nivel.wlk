@@ -64,10 +64,7 @@ object nivel{
 			
 	}
 	method ubicarAleatoriamente(visual){
-		var posicion = new Position (
-			x=1.randomUpTo(anchoRecuadro),
-			y=1.randomUpTo(altoRecuadro)
-		)
+		var posicion = new Position (x=1.randomUpTo(anchoRecuadro),y=1.randomUpTo(altoRecuadro))
 		if(game.getObjectsIn(posicion).isEmpty())
 			visual.position(posicion)
 		else
