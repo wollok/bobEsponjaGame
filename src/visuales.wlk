@@ -14,7 +14,7 @@ object bobEsponja inherits Visual(image = "BobChiquito.png",position = new Posit
 
 	method restaMonedas(cantidad) {
 		if (cantidad > monedas)
-			throw new Exception("No tengo suficiente monedas para eso")
+			throw new Exception(message = "No tengo suficiente monedas para eso")
 		monedas -= cantidad
 	}
 	

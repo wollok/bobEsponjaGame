@@ -20,7 +20,6 @@ class Ingrediente inherits Visual{
  	nivel.ubicarAleatoriamente(self)
 	}
 
-	method score() = score
 	method restarScore(_score){
 		score -= _score
 	}
@@ -35,8 +34,8 @@ const condimentos = new Ingrediente( image = "condimentos.png",monedas = 2)
 object plankton inherits Visual(position = new Position(x=10,y=3), image = "plankton.png"){
 	var formulaKangreBurger = 0
 	method colisionadoPor(personaje) {
-		if (paty.score() > 0){
-	 		paty.restarScore(1)
+		if (kangreburger.score() > 0){
+	 		kangreburger.restarScore(1)
 	 		formulaKangreBurger += 1
 	    	game.say(self, "He atrapado la fórmula! Muajaja")							 	
 	 	}
@@ -54,6 +53,9 @@ object kangreburger inherits Visual(image = "kangreburger.png"){
 	var property ingredientes = [tomate, pan, lechuga, paty, condimentos]
 	method score(){
 		return ingredientes.min{ing => ing.score()}.score()
+	}
+	method restarScore(cant){
+		ingredientes.forEach{ing => ing.restarScore(cant)}
 	}
 }
 
