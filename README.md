@@ -1,6 +1,6 @@
 # Bob Esponja Game
  
-[![Build Status](https://travis-ci.org/wollok/bobEsponjaGame.svg?branch=master)](https://travis-ci.org/wollok/bobEsponjaGame)
+[![Build Status](https://github.com/wollok/bobEsponjaGame/actions/workflows/ci.yml/badge.svg)](https://github.com/wollok/bobEsponjaGame/actions/workflows/ci.yml)
 
 ![](assets/CrustaceoCascarudo.png)
 
