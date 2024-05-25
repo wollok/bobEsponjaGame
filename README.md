@@ -6,5 +6,3 @@
 
 Juego desarrollado por estudiantes (2016)
 Corregido y adaptado por docentes (2019)
-
-

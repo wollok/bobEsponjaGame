@@ -15,16 +15,16 @@ object score{
 	}
 	method dibujarItem(elemento,posicion){
 		game.addVisual(new Visual(image = elemento.image(),position = posicion))
-		game.addVisualIn(numberConverter.getNumberImage(elemento.score().div(10)),posicion.right(1))
-		game.addVisualIn(numberConverter.getNumberImage(elemento.score() % 10),posicion.right(2))
+		game.addVisual(numberConverter.getNumberImage(elemento.score().div(10), posicion.right(1)))
+		game.addVisual(numberConverter.getNumberImage(elemento.score() % 10, posicion.right(2)))
 		
 	}
 
 }
 
 object numberConverter{
-    method getNumberImage(number){
-    	return new Visual(image= "nro" + number + ".png")
+    method getNumberImage(number, position){
+    	return new Visual(image= "nro" + number + ".png", position = position)
     }
 }
 

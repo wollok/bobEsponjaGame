@@ -4,5 +4,4 @@ import nivel.*
 program bobYLaKangreburger {
     nivel.inicio()
 	game.start()
-    
 }
