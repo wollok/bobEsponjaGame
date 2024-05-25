@@ -45,9 +45,9 @@ object nivel {
 		game.addVisual(espatula)
 		game.addVisual(plankton)
 		[tomate, lechuga, pan, paty, condimentos].forEach(
-			{ ing =>
-				game.addVisual(ing)
-				return self.ubicarAleatoriamente(ing)
+			{ ingrediente =>
+				game.addVisual(ingrediente)
+				return self.ubicarAleatoriamente(ingrediente)
 			}
 		)
 		score.dibujar()
